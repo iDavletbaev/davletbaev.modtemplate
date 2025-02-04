@@ -1,10 +1,10 @@
 <?php
-namespace CustomModule;
+namespace DavletbaevModule;
 
 use Bitrix\Main\Event;
 use Bitrix\Main\EventResult;
 
-class CustomModuleHandler
+class DavletbaevModuleHandler
 {
     public static function onBeforeUserLogin(Event $event)
     {
@@ -12,8 +12,8 @@ class CustomModuleHandler
         if (strpos($params['LOGIN'], 'test') !== false) {
             global $APPLICATION;
             $APPLICATION->throwException("Запрещено использовать 'test' в логине.");
-            return new EventResult(EventResult::ERROR, null, "custom.module");
+            return new EventResult(EventResult::ERROR, null, "davletbaev.modtemplate");
         }
-        return new EventResult(EventResult::SUCCESS, null, "custom.module");
+        return new EventResult(EventResult::SUCCESS, null, "davletbaev.modtemplate");
     }
 }

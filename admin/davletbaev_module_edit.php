@@ -28,11 +28,10 @@ if ($_POST["save"] && check_bitrix_sessid()) {
     } else {
         RecordTable::add($data);
     }
-
     LocalRedirect(
-        "/bitrix/admin/custom_module_list.php?lang=" . LANGUAGE_ID . GetFilterParams(
+        "/bitrix/admin/davletbaev_module_list.php?lang=" . LANGUAGE_ID . GetFilterParams(
             "filter_",
-            false
+            true
         )
     );
 }
@@ -58,7 +57,7 @@ if ($_POST["save"] && check_bitrix_sessid()) {
                name="save"
                value="<?= Loc::getMessage('DAV_MODULE_SAVE_BTN') ?>"
                class="ui-btn ui-btn-success">
-        <a href="custom_module_list.php" class="ui-btn ui-btn-light-border">
+        <a href="davletbaev_module_list.php" class="ui-btn ui-btn-light-border">
             <?= Loc::getMessage('DAV_MODULE_CANSEL_BTN') ?>
         </a>
     </form>

@@ -8,9 +8,10 @@ $menu = array(
     array(
         'parent_menu' => 'global_menu_content', // местов глабальном меню
         'sort' => 400, //сортировка
-        'text' => Loc::getMessage('DAV_MODULE_MENU_TEXT'), //описание из файла локализации
-        'title' => Loc::getMessage('DAV_MODULE_TITLE'), //название из файла локализации
-        'url' => 'custom_module_list.php', //ссылка на страницу из меню
+        'text' => Loc::getMessage('DAV_MODULE_MENU_TEXT'), // Название в меню
+        'title' => Loc::getMessage('DAV_MODULE_TITLE'), // Заголовок страницы
+        "icon" => "util_menu_icon",
+        'url' => 'davletbaev_module_list.php',
         'items_id' => 'menu_references',
         // вложенные пункты меню при необходимости
         /*'items' => array(

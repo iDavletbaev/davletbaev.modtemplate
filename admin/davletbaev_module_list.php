@@ -1,6 +1,7 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_admin.php");
 
+use Bitrix\Main\Application;
 use Bitrix\Main\Grid\Options as GridOptions;
 use Bitrix\Main\Loader;
 use Bitrix\Main\UI\PageNavigation;
@@ -61,7 +62,7 @@ $res = RecordTable::getList([
 $nav->setRecordCount($res->getCount());
 ?>
     <div class="adm-toolbar-panel">
-        <a href="custom_module_edit.php" class="ui-btn ui-btn-primary">
+        <a href="davletbaev_module_edit.php" class="ui-btn ui-btn-primary">
             <?= Loc::getMessage('DAV_MODULE_LIST_ADD_BTN'); ?>
         </a>
     </div>
@@ -91,7 +92,7 @@ foreach ($res->fetchAll() as $row) {
         "actions" => [
             [
                 "text" => "Редактировать",
-                "onclick" => "BX.SidePanel.Instance.open('custom_module_edit.php?ID={$row['ID']}');"
+                "onclick" => "location.href='davletbaev_module_edit.php?ID={$row['ID']}'"
             ],
             [
                 "text" => "Удалить",
@@ -100,6 +101,23 @@ foreach ($res->fetchAll() as $row) {
         ]
     ];
 }
+
+if ($_GET['delete']) {
+    $connection = Application::getConnection();
+    $ID = (int) $_GET['delete'];
+    if ($ID > 0) {
+        //$record = RecordTable::getById($ID)->fetch();
+        RecordTable::delete($ID);
+    }
+
+    LocalRedirect(
+        "/bitrix/admin/davletbaev_module_list.php?lang=" . LANGUAGE_ID . GetFilterParams(
+            "filter_",
+            true
+        )
+    );
+}
+
 $APPLICATION->IncludeComponent(
     'bitrix:main.ui.grid',
     '',

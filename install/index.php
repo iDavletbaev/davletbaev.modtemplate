@@ -25,7 +25,6 @@ class davletbaev_modtemplate extends CModule
         ModuleManager::registerModule($this->MODULE_ID);
 
         $this->InstallDB();
-//        $this->installAdminFiles();
         $this->InstallEvents();
         $this->InstallFiles();
     }
@@ -33,7 +32,6 @@ class davletbaev_modtemplate extends CModule
     public function DoUninstall()
     {
         $this->UninstallDB();
-//        $this->uninstallAdminFiles();
         $this->UninstallEvents();
         $this->UninstallFiles();
 
@@ -85,31 +83,13 @@ class davletbaev_modtemplate extends CModule
         );
     }
 
-/*    public function installAdminFiles()
-    {
-        CopyDirFiles(
-            __DIR__ . "/../admin",
-            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin",
-            true,
-            true
-        );
-    }
-
-    public function uninstallAdminFiles()
-    {
-        DeleteDirFiles(
-            __DIR__ . "/../admin",
-            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin"
-        );
-    }*/
-
     public function InstallEvents()
     {
         \Bitrix\Main\EventManager::getInstance()->registerEventHandler(
             "main",
             "OnBeforeUserLogin",
             $this->MODULE_ID,
-            "CustomModuleHandler",
+            "DavletbaevModuleHandler",
             "onBeforeUserLogin"
         );
     }
@@ -120,7 +100,7 @@ class davletbaev_modtemplate extends CModule
             "main",
             "OnBeforeUserLogin",
             $this->MODULE_ID,
-            "CustomModuleHandler",
+            "DavletbaevModuleHandler",
             "onBeforeUserLogin"
         );
     }
