@@ -1,3 +1,3 @@
 <?php
-$MESS['CUSTOMMOD_TITLE'] = 'Мой модуль';
-$MESS['CUSTOMMOD_ADD_BTN'] = 'Добавить запись';
+$MESS['DAV_MODULE_LIST_TITLE'] = 'Мой модуль';
+$MESS['DAV_MODULE_LIST_ADD_BTN'] = 'Добавить запись';

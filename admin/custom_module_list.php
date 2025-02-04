@@ -4,17 +4,17 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_ad
 use Bitrix\Main\Grid\Options as GridOptions;
 use Bitrix\Main\Loader;
 use Bitrix\Main\UI\PageNavigation;
-use CustomModule\RecordTable;
+use DavletbaevModule\RecordTable;
 use Bitrix\Main\Localization\Loc;
 
 Loc::loadMessages(__FILE__);
 
 /** @var $APPLICATION CMain */
 
-$APPLICATION->SetTitle(Loc::getMessage('CUSTOMMOD_TITLE'));
+$APPLICATION->SetTitle(Loc::getMessage('DAV_MODULE_LIST_TITLE'));
 
 try {
-    Loader::includeModule("custom.module");
+    Loader::includeModule("davletbaev.modtemplate");
 } catch (\Bitrix\Main\LoaderException $e) {
 }
 $list_id = 'example_list';
@@ -62,7 +62,7 @@ $nav->setRecordCount($res->getCount());
 ?>
     <div class="adm-toolbar-panel">
         <a href="custom_module_edit.php" class="ui-btn ui-btn-primary">
-            <?= Loc::getMessage('CUSTOMMOD_ADD_BTN'); ?>
+            <?= Loc::getMessage('DAV_MODULE_LIST_ADD_BTN'); ?>
         </a>
     </div>
     <div>

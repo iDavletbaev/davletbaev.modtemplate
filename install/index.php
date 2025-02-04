@@ -3,18 +3,19 @@
 use Bitrix\Main\Application;
 use Bitrix\Main\Entity\Base;
 use Bitrix\Main\Loader;
+use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\ModuleManager;
-use CustomModule\RecordTable;
+use DavletbaevModule\RecordTable;
 
 class davletbaev_modtemplate extends CModule
 {
     public function __construct()
     {
         $this->MODULE_ID = "davletbaev.modtemplate";
-        $this->MODULE_NAME = "Мой модуль";
-        $this->MODULE_DESCRIPTION = "Описание модуля";
-        $this->PARTNER_NAME = "Компания";
-        $this->PARTNER_URI = "https://example.com";
+        $this->MODULE_NAME = Loc::getMessage('DAV_MODULE_NAME');
+        $this->MODULE_DESCRIPTION = Loc::getMessage('DAV_MODULE_DESCRIPTION');
+        $this->PARTNER_NAME = Loc::getMessage('DAV_MODULE_VENDOR_NAME');
+        $this->PARTNER_URI = Loc::getMessage('DAV_MODULE_VENDOR_URL');
         $this->MODULE_VERSION = "1.0.0";
         $this->MODULE_VERSION_DATE = "2025-01-30";
     }
@@ -22,13 +23,87 @@ class davletbaev_modtemplate extends CModule
     public function DoInstall()
     {
         ModuleManager::registerModule($this->MODULE_ID);
-        $this->installDB();
-        $this->installAdminFiles();
-        $this->installEvents();
-        $this->installFiles();
+
+        $this->InstallDB();
+//        $this->installAdminFiles();
+        $this->InstallEvents();
+        $this->InstallFiles();
     }
 
-    public function installEvents()
+    public function DoUninstall()
+    {
+        $this->UninstallDB();
+//        $this->uninstallAdminFiles();
+        $this->UninstallEvents();
+        $this->UninstallFiles();
+
+        ModuleManager::unRegisterModule($this->MODULE_ID);
+    }
+
+    public function InstallDB()
+    {
+        if (Loader::includeModule($this->MODULE_ID)) {
+            RecordTable::getEntity()->createDbTable();
+        }
+    }
+
+    public function UninstallDB()
+    {
+        if (Loader::includeModule($this->MODULE_ID)) {
+            if (Application::getConnection()->isTableExists(RecordTable::getTableName())) {
+                $connection = Application::getInstance()->getConnection();
+                $connection->dropTable(RecordTable::getTableName());
+            }
+        }
+    }
+
+    public function InstallFiles()
+    {
+        CopyDirFiles(
+            __DIR__ . "/admin",
+            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin/",
+            true,
+            true
+        );
+        CopyDirFiles(
+            __DIR__ . "/components",
+            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/components/",
+            true,
+            true
+        );
+    }
+
+    public function UninstallFiles()
+    {
+        DeleteDirFiles(
+            __DIR__ . "/admin",
+            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin/"
+        );
+        DeleteDirFiles(
+            __DIR__ . "/components",
+            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/components/"
+        );
+    }
+
+/*    public function installAdminFiles()
+    {
+        CopyDirFiles(
+            __DIR__ . "/../admin",
+            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin",
+            true,
+            true
+        );
+    }
+
+    public function uninstallAdminFiles()
+    {
+        DeleteDirFiles(
+            __DIR__ . "/../admin",
+            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin"
+        );
+    }*/
+
+    public function InstallEvents()
     {
         \Bitrix\Main\EventManager::getInstance()->registerEventHandler(
             "main",
@@ -39,43 +114,7 @@ class davletbaev_modtemplate extends CModule
         );
     }
 
-    public function installFiles()
-    {
-        CopyDirFiles(
-            __DIR__ . "/admin",
-            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin/",
-            true, // перезаписывает файлы
-            true  // копирует рекурсивно
-        );
-    }
-
-    public function installDB()
-    {
-        if (Loader::includeModule($this->MODULE_ID)) {
-            RecordTable::getEntity()->createDbTable();
-        }
-    }
-
-    public function installAdminFiles()
-    {
-        CopyDirFiles(
-            __DIR__ . "/../admin",
-            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin",
-            true,
-            true
-        );
-    }
-
-    public function DoUninstall()
-    {
-        $this->uninstallDB();
-        $this->uninstallAdminFiles();
-        $this->uninstallEvents();
-        $this->uninstallFiles();
-        ModuleManager::unRegisterModule($this->MODULE_ID);
-    }
-
-    public function uninstallEvents()
+    public function UninstallEvents()
     {
         \Bitrix\Main\EventManager::getInstance()->unRegisterEventHandler(
             "main",
@@ -83,32 +122,6 @@ class davletbaev_modtemplate extends CModule
             $this->MODULE_ID,
             "CustomModuleHandler",
             "onBeforeUserLogin"
-        );
-    }
-
-    public function uninstallFiles()
-    {
-        DeleteDirFiles(
-            __DIR__ . "/admin",
-            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin/"
-        );
-    }
-
-    public function uninstallDB()
-    {
-        if (Loader::includeModule($this->MODULE_ID)) {
-            if (Application::getConnection()->isTableExists(RecordTable::getTableName())) {
-                $connection = Application::getInstance()->getConnection();
-                $connection->dropTable(RecordTable::getTableName());
-            }
-        }
-    }
-
-    public function uninstallAdminFiles()
-    {
-        DeleteDirFiles(
-            __DIR__ . "/../admin",
-            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin"
         );
     }
 }

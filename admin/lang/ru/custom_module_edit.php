@@ -1,2 +1,4 @@
 <?php
-$MESS['CUSTOMMOD_ADD_BTN'] = 'Добавить запись';
+$MESS['DAV_MODULE_EDIT_TITLE'] = 'Добавление записи';
+$MESS['DAV_MODULE_SAVE_BTN'] = 'Сохранить';
+$MESS['DAV_MODULE_CANSEL_BTN'] = 'Отменить';

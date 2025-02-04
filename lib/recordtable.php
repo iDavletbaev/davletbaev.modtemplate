@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomModule;
+namespace DavletbaevModule;
 
 use Bitrix\Main\Entity;
 use Bitrix\Main\Type;

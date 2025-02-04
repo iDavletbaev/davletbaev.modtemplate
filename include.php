@@ -3,8 +3,8 @@ use Bitrix\Main\Loader;
 
 Loader::includeModule("custom.module");
 Bitrix\Main\Loader::registerAutoloadClasses(
-    "custom.module",
+    "davletbaev.modtemplate",
     array(
-        "CustomModule\\RecordTable" => "lib/recordtable.php",
+        "DavletbaevModule\\RecordTable" => "lib/recordtable.php",
     )
 );
